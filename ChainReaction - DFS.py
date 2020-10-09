@@ -1,4 +1,5 @@
 # ChainReaction
+# Author: Dhruv Somani
  
 import time
 import random
@@ -96,19 +97,8 @@ class ChainBoard:
                     
                     try:
                         experimentation_board.new_orb(row, column)  # experiments and give ratings
-                    except Exception as err:
-                        
-##                        print(err, 'at', row, column)
-##                        for neighbor in self.get_neighbors(row, column):
-##                            print((row, column), 'has a neighbor', (neighbor[0], neighbor[1]), 'with', self[neighbor[0], neighbor[1]][1], 'orbs',
-##                                  'which has', self.orbs_to_critical(neighbor[0], neighbor[1]), 'to explode')
- 
+                    except Exception as err: 
                         rating = float('inf') # Since this is an infinite move cycle, we win
- 
-##                    if depth == 1:
-##                        print()
-##                        print('Row:', row, 'Column:', column)
-##                        print(experimentation_board)
  
                     # Analysis of the Stage of Experimentation Board
                     my_orbs = 0
@@ -132,27 +122,15 @@ class ChainBoard:
                                 if (exp_row == 0 or exp_row == 4) or (exp_column == 0 or exp_column == 4):
                                     num_of_edges += 1
  
-                                # What my silly mistake was?
-                                # I checked the criticalness of the box in the self board which was not altered instead
-                                # of checking it in the experimentation_board which was made specifically for that purpose.
-                                # Throughout the exp_thing you could see references to `self` when it had nothing to do
-                                # with it. This was my mistake. I hope it will greatly improve the working of the program,
-                                # this correction.
- 
                                 for neighbor in self.get_neighbors(exp_row, exp_column):
                                     if self[neighbor[0], neighbor[1]][0] != 0 and self[neighbor[0], neighbor[1]][0] != self.turn:                                        
                                         my_orbs_to_critical = experimentation_board.orbs_to_critical(exp_row, exp_column)
                                         opp_orbs_to_critical = experimentation_board.orbs_to_critical(neighbor[0], neighbor[1])
                                         
                                         if my_orbs_to_critical < opp_orbs_to_critical:
-##                                            print(exp_row, exp_column, 'is stronger than', neighbor[0], neighbor[1])
-##                                            print(my_orbs_to_critical, opp_orbs_to_critical)
                                             my_box_stronger += exp_orbs * (1 / (opp_orbs_to_critical - my_orbs_to_critical + 1)**2) / 3
  
                                         else:
-##                                            print(exp_row, exp_column, 'is weaker than', neighbor[0], neighbor[1])
-##                                            print(my_orbs_to_critical, opp_orbs_to_critical)
-
                                             vulnerable_neighbors = 0
                     
                                             if opp_orbs_to_critical == 0:
@@ -176,9 +154,6 @@ class ChainBoard:
                         
                     if depth >= 1:
                         experimentation_board.turn = (experimentation_board.turn * 2) % 3
- 
-##                        print(experimentation_board)
-##                        print(experimentation_board.turn)
                         
                         exp_ratings = experimentation_board.suggest_move(depth - 1)
                         max_loss_rating = max([value for value in exp_ratings.values()]) # if value != float('inf') and value != float('-inf')
