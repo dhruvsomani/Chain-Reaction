@@ -1,4 +1,5 @@
 # ChainReaction
+# Author: Dhruv Somani
 # Heuristic: 11
 
 import time
@@ -66,18 +67,6 @@ class ChainBoard:
     def suggest_move(self, depth):
         ratings = {(x, y): 0 for x in range(5) for y in range(5)}
 
-        #
-        #
-        #
-        #
-        #
-        #   It opens up the corners without need!!!!!!!!!!!!!!!!!!
-        #
-        #
-        #
-        #
-        #
-
         for row in range(5):
             for column in range(5):
                 player, orbs = self[row, column]
@@ -126,26 +115,15 @@ class ChainBoard:
 
                                 strong_than_all = True
 
-                                # What my silly mistake was?
-                                # I checked the criticalness of the box in the self board which was not altered instead
-                                # of checking it in the experimentation_board which was made specifically for that purpose.
-                                # Throughout the exp_thing you could see references to `self` when it had nothing to do
-                                # with it. This was my mistake. I hope it will greatly improve the working of the program,
-                                # this correction.
-
                                 for neighbor in self.get_neighbors(exp_row, exp_column):
                                     if self[neighbor[0], neighbor[1]][0] != 0 and self[neighbor[0], neighbor[1]][0] != self.turn:                                        
                                         my_orbs_to_critical = experimentation_board.orbs_to_critical(exp_row, exp_column)
                                         opp_orbs_to_critical = experimentation_board.orbs_to_critical(neighbor[0], neighbor[1])
                                         
                                         if my_orbs_to_critical < opp_orbs_to_critical:
-##                                            print(exp_row, exp_column, 'is stronger than', neighbor[0], neighbor[1])
-##                                            print(my_orbs_to_critical, opp_orbs_to_critical)
                                             my_box_stronger += exp_orbs * (1 / (opp_orbs_to_critical - my_orbs_to_critical + 1)**2) / 3
 
                                         else:
-##                                            print(exp_row, exp_column, 'is weaker than', neighbor[0], neighbor[1])
-##                                            print(my_orbs_to_critical, opp_orbs_to_critical)
                                             my_box_stronger -= exp_orbs * (1 / (my_orbs_to_critical - opp_orbs_to_critical + 1)**2.4) / 2.3
                                             strong_than_all = False
 
@@ -194,11 +172,9 @@ class ChainBoard:
                                                     opp_orbs_to_critical = self.orbs_to_critical(neighbor[0], neighbor[1])
                                                     
                                                     if my_orbs_to_critical < opp_orbs_to_critical:
-##                                                        print(exp_row, exp_column, 'is stronger than', neighbor[0], neighbor[1])
                                                         ver_opp_box_stronger += ver_orbs * (1 / (opp_orbs_to_critical - my_orbs_to_critical + 1)**2) / 3
 
                                                     else:
-##                                                        print(exp_row, exp_column, 'is weaker than', neighbor[0], neighbor[1])
                                                         ver_opp_box_stronger -= ver_orbs * (1 / (my_orbs_to_critical - opp_orbs_to_critical + 1)**0.8) / 5
                                                         strong_than_all = False
 
