@@ -5,3 +5,7 @@ The class `ChainBoard` denotes a Board object which specifies a snapshot of a pa
 
 The file `Chain Reaction - DFS.py` contains code for a bot which goes one level deep and calculates the best possible move the opponent can make
 and rates the current move on basis of that.
+
+The bot ranked 22 amongst almost 2000 participants with a win rate of 86.63%.
+
+Leaderboard: https://www.hackerearth.com/challenges/competitive/battle-of-bots-7/leaderboard/page/1/
